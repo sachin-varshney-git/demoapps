@@ -74,7 +74,10 @@ CREATE TABLE catalog.products (
 );
 
 -- Product Catalog Service: grant permission to schema
-GRANT SELECT ON ALL TABLES IN SCHEMA catalog TO astronomy_user;
+-- UPDATE is required to acquire the ACCESS EXCLUSIVE lock used by the
+-- productCatalogLockContention fault-injection flag; the service otherwise
+-- only reads from this schema.
+GRANT SELECT, UPDATE ON ALL TABLES IN SCHEMA catalog TO astronomy_user;
 
 -- TODO(vertical-pack): stub catalog only, brand: Wavelength. Replace with
 -- real plan/device data and matching imagery in
@@ -84,3 +87,13 @@ VALUES
     ('TC-0001', 'Unlimited 5G Plan', 'Placeholder Telco vertical entry -- unlimited data, nationwide 5G. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'plans,mobile'),
     ('TC-0002', 'Home Fiber 500', 'Placeholder Telco vertical entry -- 500 Mbps symmetric fiber. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'plans,broadband'),
     ('TC-0003', 'NovaPhone 12', 'Placeholder Telco vertical entry -- flagship device, available on plan financing. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'devices,phones');
+
+-- Grant schema access for postgresql receiver's top_query metric
+-- The receiver needs SELECT access to explain its own query samples
+GRANT USAGE ON SCHEMA catalog TO monitoring_user;
+GRANT SELECT ON ALL TABLES IN SCHEMA catalog TO monitoring_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA catalog GRANT SELECT ON TABLES TO monitoring_user;
+GRANT USAGE ON SCHEMA accounting TO monitoring_user;
+-- Scope to non-PII tables only: shipping contains customer address data (street, city, state, country, zip)
+GRANT SELECT ON accounting."order" TO monitoring_user;
+GRANT SELECT ON accounting.orderitem TO monitoring_user;

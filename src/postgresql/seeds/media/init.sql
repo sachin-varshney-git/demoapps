@@ -74,7 +74,10 @@ CREATE TABLE catalog.products (
 );
 
 -- Product Catalog Service: grant permission to schema
-GRANT SELECT ON ALL TABLES IN SCHEMA catalog TO astronomy_user;
+-- UPDATE is required to acquire the ACCESS EXCLUSIVE lock used by the
+-- productCatalogLockContention fault-injection flag; the service otherwise
+-- only reads from this schema.
+GRANT SELECT, UPDATE ON ALL TABLES IN SCHEMA catalog TO astronomy_user;
 
 -- TODO(vertical-pack): stub catalog only, brand: Reelwave. Replace with real
 -- title/bundle data and matching imagery in
@@ -84,3 +87,13 @@ VALUES
     ('ME-0001', 'Reelwave Standard Plan', 'Placeholder Media vertical entry -- ad-supported streaming tier. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'plans,streaming'),
     ('ME-0002', 'Reelwave Premium Bundle', 'Placeholder Media vertical entry -- ad-free, multi-device streaming tier. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'plans,streaming'),
     ('ME-0003', 'Offline Download Pack', 'Placeholder Media vertical entry -- offline viewing add-on. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'addons,streaming');
+
+-- Grant schema access for postgresql receiver's top_query metric
+-- The receiver needs SELECT access to explain its own query samples
+GRANT USAGE ON SCHEMA catalog TO monitoring_user;
+GRANT SELECT ON ALL TABLES IN SCHEMA catalog TO monitoring_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA catalog GRANT SELECT ON TABLES TO monitoring_user;
+GRANT USAGE ON SCHEMA accounting TO monitoring_user;
+-- Scope to non-PII tables only: shipping contains customer address data (street, city, state, country, zip)
+GRANT SELECT ON accounting."order" TO monitoring_user;
+GRANT SELECT ON accounting.orderitem TO monitoring_user;

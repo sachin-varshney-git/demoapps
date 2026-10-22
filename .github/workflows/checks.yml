@@ -24,7 +24,7 @@ jobs:
     permissions:  # required by the reusable workflow
       contents: read  # required by the component-build-images reusable workflow
       packages: write  # required to push built images to GHCR
-    uses: ./.github/workflows/component-build-images.yml
+    uses: $/.github/workflows/component-build-images.yml
     with:
       push: ${{ github.event_name == 'push' }}
       force_build: ${{ github.event_name == 'push' }}
@@ -88,13 +88,13 @@ jobs:
         id: cache-restore
         with:
           path: .lycheecache
-          key: ${{ runner.os }}-lychee-${{ hashFiles('.lychee.toml') }}
+          key: ${{ runner.os }}-lychee-${{ hashFiles('.github/lychee.toml') }}
           restore-keys: |
             ${{ runner.os }}-lychee-
       - name: Run lychee
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8  # v2.9.0
         with:
-          args: --config .lychee.toml --cache --max-cache-age 3d --cache-exclude-status 300..=599 .
+          args: --config .github/lychee.toml --cache --max-cache-age 3d --cache-exclude-status 300..=599 .
           fail: true
       - name: Save lychee cache
         if: always()
@@ -113,6 +113,8 @@ jobs:
           persist-credentials: false
       - name: Run sanitycheck.py
         run: python3 ./internal/tools/sanitycheck.py
+      - name: Check collector config layers keep earlier pipeline components
+        run: python3 ./internal/tools/check_collector_pipelines.py
 
   checklicense:
     name: Check license
@@ -124,6 +126,23 @@ jobs:
           persist-credentials: false
       - name: Run checklicense
         run: make checklicense
+
+  # Validates that every fragment in .chloggen/ is well-formed. Presence of a
+  # fragment on each PR is enforced separately by changelog.yml.
+  changelog:
+    name: Changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e  # v7.0.0
+        with:
+          go-version: '1.27.1'
+      - name: Validate changelog fragments
+        run: make chlog-validate
 
   weaver-check:
     name: Weaver check
@@ -169,15 +188,7 @@ jobs:
   react-native-build:
     needs: check-react-native-changes
     if: needs.check-react-native-changes.outputs.should_build == 'true'
-    uses: ./.github/workflows/react-native-build.yml
-
-  zizmor:
-    name: zizmor scan
-    permissions:
-      actions: read  # required to scan GitHub Actions workflows
-      contents: read  # required to checkout the repository
-      security-events: write  # required to upload zizmor SARIF to code scanning
-    uses: ./.github/workflows/zizmor.yml
+    uses: $/.github/workflows/react-native-build.yml
 
   codeql-analysis:
     name: CodeQL analysis
@@ -185,7 +196,7 @@ jobs:
       actions: read  # required to scan GitHub Actions workflows
       contents: read  # required to checkout the repository
       security-events: write  # required to upload CodeQL SARIF to code scanning
-    uses: ./.github/workflows/codeql-analysis.yml
+    uses: $/.github/workflows/codeql-analysis.yml
 
   build-test:
     name: build-test
@@ -197,10 +208,10 @@ jobs:
       checklinks,
       sanity,
       checklicense,
+      changelog,
       weaver-check,
       react-native-build,
-      codeql-analysis,
-      zizmor
+      codeql-analysis
     ]
     if: always() && !cancelled()
     runs-on: ubuntu-latest

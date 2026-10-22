@@ -74,7 +74,10 @@ CREATE TABLE catalog.products (
 );
 
 -- Product Catalog Service: grant permission to schema
-GRANT SELECT ON ALL TABLES IN SCHEMA catalog TO astronomy_user;
+-- UPDATE is required to acquire the ACCESS EXCLUSIVE lock used by the
+-- productCatalogLockContention fault-injection flag; the service otherwise
+-- only reads from this schema.
+GRANT SELECT, UPDATE ON ALL TABLES IN SCHEMA catalog TO astronomy_user;
 
 -- TODO(vertical-pack): stub catalog only, brand: Meridian Trust. Replace with
 -- real BFSI product/service data and matching imagery in
@@ -84,3 +87,13 @@ VALUES
     ('BF-0001', 'Everyday Checking Account', 'Placeholder BFSI vertical entry -- no monthly fees, no minimum balance. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'accounts,checking'),
     ('BF-0002', 'High-Yield Savings Account', 'Placeholder BFSI vertical entry -- competitive APY with no lock-in period. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'accounts,savings'),
     ('BF-0003', 'Starter Credit Card', 'Placeholder BFSI vertical entry -- no annual fee, cashback rewards. Replace with real product content.', 'placeholder.svg', 'USD', 0, 0, 'cards,credit');
+
+-- Grant schema access for postgresql receiver's top_query metric
+-- The receiver needs SELECT access to explain its own query samples
+GRANT USAGE ON SCHEMA catalog TO monitoring_user;
+GRANT SELECT ON ALL TABLES IN SCHEMA catalog TO monitoring_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA catalog GRANT SELECT ON TABLES TO monitoring_user;
+GRANT USAGE ON SCHEMA accounting TO monitoring_user;
+-- Scope to non-PII tables only: shipping contains customer address data (street, city, state, country, zip)
+GRANT SELECT ON accounting."order" TO monitoring_user;
+GRANT SELECT ON accounting.orderitem TO monitoring_user;

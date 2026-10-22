@@ -74,7 +74,10 @@ CREATE TABLE catalog.products (
 );
 
 -- Product Catalog Service: grant permission to schema
-GRANT SELECT ON ALL TABLES IN SCHEMA catalog TO astronomy_user;
+-- UPDATE is required to acquire the ACCESS EXCLUSIVE lock used by the
+-- productCatalogLockContention fault-injection flag; the service otherwise
+-- only reads from this schema.
+GRANT SELECT, UPDATE ON ALL TABLES IN SCHEMA catalog TO astronomy_user;
 
 -- Product Catalog Service: add product data
 -- Retail vertical (brand: Everline) -- placeholder demo catalog, see
@@ -92,3 +95,13 @@ VALUES
     ('RT-0008', 'NovaCharge Portable Power Bank', '10,000mAh power bank with dual USB-C ports and pass-through charging. Slim enough for a jacket pocket, strong enough for a full phone charge and change.', 'NovaChargePowerBank.svg', 'USD', 29, 990000000, 'electronics,accessories'),
     ('RT-0009', 'Horizon Canvas Tote Bag', 'Heavyweight cotton canvas tote with reinforced stitching and an interior pocket. Built for grocery runs, gym gear, or everyday carry.', 'HorizonCanvasToteBag.svg', 'USD', 19, 500000000, 'accessories,bags'),
     ('RT-0010', 'Driftwood Cutting Board Set', 'A two-piece acacia wood cutting board set with juice grooves and built-in handles. Finished with food-safe oil, ready to use out of the box.', 'DriftwoodCuttingBoardSet.svg', 'USD', 45, 0, 'home,kitchen');
+
+-- Grant schema access for postgresql receiver's top_query metric
+-- The receiver needs SELECT access to explain its own query samples
+GRANT USAGE ON SCHEMA catalog TO monitoring_user;
+GRANT SELECT ON ALL TABLES IN SCHEMA catalog TO monitoring_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA catalog GRANT SELECT ON TABLES TO monitoring_user;
+GRANT USAGE ON SCHEMA accounting TO monitoring_user;
+-- Scope to non-PII tables only: shipping contains customer address data (street, city, state, country, zip)
+GRANT SELECT ON accounting."order" TO monitoring_user;
+GRANT SELECT ON accounting.orderitem TO monitoring_user;

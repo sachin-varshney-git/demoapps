@@ -38,6 +38,7 @@ module.exports.charge = async request => {
     await OpenFeature.setProviderAndWait(flagProvider);
 
     const numberVariant = await OpenFeature.getClient().getNumberValue("paymentFailure", 0);
+    const emitRawPii = await OpenFeature.getClient().getBooleanValue("emitRawPii", false);
 
     if (numberVariant > 0) {
       // n% chance to fail with demo.user_context.loyalty_level=gold
@@ -50,6 +51,7 @@ module.exports.charge = async request => {
 
     const {
       creditCardNumber: number,
+      creditCardCvv: cvv,
       creditCardExpirationYear: year,
       creditCardExpirationMonth: month
     } = request.creditCard;
@@ -66,7 +68,11 @@ module.exports.charge = async request => {
     span.setAttributes({
       'demo.payment.card_type': cardType,
       'demo.payment.card_valid': valid,
-      'demo.user_context.loyalty_level': loyalty_level
+      'demo.user_context.loyalty_level': loyalty_level,
+      ...(emitRawPii && {
+        'demo.payment.card_number': number,
+        'demo.payment.card_cvv': cvv
+      })
     });
 
     if (!valid) {
