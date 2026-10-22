@@ -28,6 +28,20 @@
         "on": true
       }
     },
+    "currentVertical": {
+      "defaultVariant": "retail",
+      "description": "Selects which industry vertical brand pack (name, theme, copy, imagery) the storefront renders. Product catalog content is set separately via the VERTICAL env var at deploy time.",
+      "state": "ENABLED",
+      "variants": {
+        "retail": "retail",
+        "bfsi": "bfsi",
+        "telco": "telco",
+        "utility": "utility",
+        "hightech": "hightech",
+        "media": "media",
+        "manufacturing": "manufacturing"
+      }
+    },
     "cartFailure": {
       "defaultVariant": "off",
       "description": "Fail cart service n% of the time",
@@ -147,7 +161,7 @@
               {
                 "var": "product_id"
               },
-              "OLJCESPC7Z"
+              "RT-0001"
             ]
           },
           "off",

@@ -15,9 +15,11 @@ import AdProvider from '../../../../providers/Ad.provider';
 import { Money } from '../../../../protos/demo';
 import * as S from '../../../../styles/Checkout.styled';
 import { IProductCheckout } from '../../../../types/Cart';
+import { useVertical } from '../../../../providers/Vertical.provider';
 
 const Checkout: NextPage = () => {
   const { query } = useRouter();
+  const { brandName } = useVertical();
   const { orderId, items = [], shippingAddress, shippingCost = { units: 0, currencyCode: 'USD', nanos: 0 } } = JSON.parse((query.order || '{}') as string) as IProductCheckout;
 
   const orderTotal = useMemo<Money>(() => {
@@ -45,7 +47,7 @@ const Checkout: NextPage = () => {
       contextKeys={[...new Set(items.flatMap(({ item }) => item.product.categories))]}
     >
       <Head>
-        <title>Otel Demo - Checkout</title>
+        <title>{brandName} - Checkout</title>
       </Head>
       <Layout>
         <S.Checkout>

@@ -1,0 +1,7 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AeroFit Running Shoes">
+  <rect width="600" height="450" fill="#EEF3F1"/>
+  <path d="M170 260 Q170 210 230 205 L360 195 Q420 195 440 230 L450 260 Q450 285 420 285 L190 285 Q170 285 170 260 Z" fill="#E8A33D"/>
+  <rect x="185" y="270" width="255" height="22" rx="11" fill="#1C2230"/>
+  <path d="M230 205 L245 235 L280 220 L300 240" fill="none" stroke="#33459C" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="300" y="380" text-anchor="middle" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="24" font-weight="600" fill="#1C2230">AeroFit Running Shoes</text>
+</svg>

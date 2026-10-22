@@ -5,7 +5,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 export const Header = styled.header`
-  background-color: #853b5c;
+  background-color: ${({ theme }) => theme.colors.otelGray};
   color: white;
 `;
 
@@ -42,10 +42,8 @@ export const NavBarBrand = styled(Link)`
   padding: 0;
 `;
 
-export const BrandImg = styled.img.attrs({
-  src: '/images/opentelemetry-demo-logo.png',
-})`
-  width: 280px;
+export const BrandImg = styled.img`
+  width: 200px;
   height: auto;
 `;
 

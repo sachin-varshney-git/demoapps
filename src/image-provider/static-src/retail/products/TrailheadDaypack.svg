@@ -1,0 +1,8 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trailhead Daypack">
+  <rect width="600" height="450" fill="#EAEDF6"/>
+  <rect x="220" y="120" width="160" height="200" rx="28" fill="#33459C"/>
+  <rect x="250" y="90" width="100" height="60" rx="20" fill="none" stroke="#33459C" stroke-width="10"/>
+  <rect x="245" y="180" width="110" height="70" rx="10" fill="#E8A33D"/>
+  <rect x="270" y="260" width="60" height="10" rx="5" fill="#1C2230"/>
+  <text x="300" y="400" text-anchor="middle" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="26" font-weight="600" fill="#1C2230">Trailhead Daypack</text>
+</svg>

@@ -1,0 +1,7 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CascadeBrew Pour-Over Kettle">
+  <rect width="600" height="450" fill="#EEF3F1"/>
+  <path d="M240 180 Q240 160 260 160 L340 160 Q360 160 360 180 L350 300 Q345 320 320 320 L280 320 Q255 320 250 300 Z" fill="#3A4150"/>
+  <path d="M360 200 L410 170" stroke="#3A4150" stroke-width="12" stroke-linecap="round"/>
+  <rect x="270" y="140" width="60" height="20" rx="8" fill="#E8A33D"/>
+  <text x="300" y="380" text-anchor="middle" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="600" fill="#1C2230">CascadeBrew Kettle</text>
+</svg>

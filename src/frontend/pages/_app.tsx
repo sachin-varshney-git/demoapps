@@ -6,8 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App, { AppContext, AppProps } from 'next/app';
 import CurrencyProvider from '../providers/Currency.provider';
 import CartProvider from '../providers/Cart.provider';
-import { ThemeProvider } from 'styled-components';
-import Theme from '../styles/Theme';
+import VerticalProvider from '../providers/Vertical.provider';
 import FrontendTracer from '../utils/telemetry/FrontendTracer';
 import SessionGateway from '../gateways/Session.gateway';
 import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk';
@@ -60,8 +59,8 @@ const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={Theme}>
-      <OpenFeatureProvider>
+    <OpenFeatureProvider>
+      <VerticalProvider>
         <QueryClientProvider client={queryClient}>
           <CurrencyProvider>
             <CartProvider>
@@ -69,8 +68,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             </CartProvider>
           </CurrencyProvider>
         </QueryClientProvider>
-      </OpenFeatureProvider>
-    </ThemeProvider>
+      </VerticalProvider>
+    </OpenFeatureProvider>
   );
 }
 

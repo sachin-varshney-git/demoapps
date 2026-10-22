@@ -6,6 +6,7 @@ import * as S from './Footer.styled';
 import SessionGateway from '../../gateways/Session.gateway';
 import { CypressFields } from '../../utils/enums/CypressFields';
 import PlatformFlag from '../PlatformFlag';
+import { useVertical } from '../../providers/Vertical.provider';
 
 const currentYear = new Date().getFullYear();
 
@@ -13,6 +14,7 @@ const { userId } = SessionGateway.getSession();
 
 const Footer = () => {
   const [sessionId, setSessionId] = useState('');
+  const { brandName, footerTagline } = useVertical();
 
   useEffect(() => {
     setSessionId(userId);
@@ -21,13 +23,13 @@ const Footer = () => {
   return (
     <S.Footer>
       <div>
-        <p>This website is hosted for demo purpose only. It is not an actual shop.</p>
+        <p>{footerTagline}</p>
         <p>
           <span data-cy={CypressFields.SessionId}>session-id: {sessionId}</span>
         </p>
       </div>
       <p>
-        @ {currentYear} OpenTelemetry (<a href="https://github.com/open-telemetry/opentelemetry-demo">Source Code</a>)
+        &copy; {currentYear} {brandName} &mdash; Built by HCLTech
       </p>
       <PlatformFlag />
     </S.Footer>

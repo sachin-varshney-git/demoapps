@@ -1,0 +1,9 @@
+<svg viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Everline banner">
+  <rect width="1200" height="500" fill="#33459C"/>
+  <circle cx="980" cy="140" r="220" fill="#3D4FAE"/>
+  <circle cx="1080" cy="380" r="150" fill="#E8A33D"/>
+  <rect x="720" y="260" width="220" height="170" rx="18" fill="#28336F"/>
+  <rect x="760" y="220" width="140" height="60" rx="14" fill="#1C2230"/>
+  <circle cx="790" cy="430" r="18" fill="#1C2230"/>
+  <circle cx="890" cy="430" r="18" fill="#1C2230"/>
+</svg>

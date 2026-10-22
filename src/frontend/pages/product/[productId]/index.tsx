@@ -19,6 +19,7 @@ import AdProvider from '../../../providers/Ad.provider';
 import { useCart } from '../../../providers/Cart.provider';
 import * as S from '../../../styles/ProductDetail.styled';
 import { useCurrency } from '../../../providers/Currency.provider';
+import { useVertical } from '../../../providers/Vertical.provider';
 
 const quantityOptions = new Array(10).fill(0).map((_, i) => i + 1);
 
@@ -30,6 +31,7 @@ const ProductDetail: NextPage = () => {
     cart: { items },
   } = useCart();
   const { selectedCurrency } = useCurrency();
+  const { brandName } = useVertical();
   const productId = query.productId as string;
 
   useEffect(() => {
@@ -65,7 +67,7 @@ const ProductDetail: NextPage = () => {
       contextKeys={[...new Set(categories)]}
     >
       <Head>
-        <title>Otel Demo - Product</title>
+        <title>{brandName} - {name || 'Product'}</title>
       </Head>
       <Layout>
         <S.ProductDetail data-cy={CypressFields.ProductDetail}>

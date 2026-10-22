@@ -4,14 +4,17 @@
 import CartIcon from '../CartIcon';
 import CurrencySwitcher from '../CurrencySwitcher';
 import * as S from './Header.styled';
+import { useVertical } from '../../providers/Vertical.provider';
 
 const Header = () => {
+  const { brandName, logoFile } = useVertical();
+
   return (
     <S.Header>
       <S.NavBar>
         <S.Container>
           <S.NavBarBrand href="/">
-            <S.BrandImg />
+            <S.BrandImg src={`/images/${logoFile}`} alt={brandName} />
           </S.NavBarBrand>
           <S.Controls>
             <CurrencySwitcher />

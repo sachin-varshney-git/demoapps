@@ -1,0 +1,10 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PulseWave Wireless Earbuds">
+  <rect width="600" height="450" fill="#F1EEF6"/>
+  <rect x="230" y="150" width="60" height="90" rx="20" fill="#33459C"/>
+  <rect x="310" y="150" width="60" height="90" rx="20" fill="#33459C"/>
+  <circle cx="260" cy="260" r="16" fill="#E8A33D"/>
+  <circle cx="340" cy="260" r="16" fill="#E8A33D"/>
+  <rect x="255" y="120" width="10" height="35" rx="5" fill="#1C2230"/>
+  <rect x="335" y="120" width="10" height="35" rx="5" fill="#1C2230"/>
+  <text x="300" y="380" text-anchor="middle" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="22" font-weight="600" fill="#1C2230">PulseWave Earbuds</text>
+</svg>

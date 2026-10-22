@@ -1,0 +1,7 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TrailMate Stainless Water Bottle">
+  <rect width="600" height="450" fill="#F1EEF6"/>
+  <rect x="265" y="130" width="70" height="30" rx="8" fill="#3A4150"/>
+  <rect x="245" y="160" width="110" height="180" rx="24" fill="#33459C"/>
+  <rect x="245" y="230" width="110" height="30" fill="#E8A33D"/>
+  <text x="300" y="380" text-anchor="middle" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="600" fill="#1C2230">TrailMate Water Bottle</text>
+</svg>

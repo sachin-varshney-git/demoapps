@@ -1,0 +1,8 @@
+<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NovaCharge Portable Power Bank">
+  <rect width="600" height="450" fill="#EAEDF6"/>
+  <rect x="230" y="160" width="140" height="220" rx="18" fill="#1C2230"/>
+  <rect x="250" y="190" width="100" height="14" rx="4" fill="#E8A33D"/>
+  <rect x="250" y="215" width="70" height="14" rx="4" fill="#33459C"/>
+  <path d="M300 250 L285 290 L305 290 L290 330 L325 275 L305 275 Z" fill="#E8A33D"/>
+  <text x="300" y="400" text-anchor="middle" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="600" fill="#1C2230">NovaCharge Power Bank</text>
+</svg>

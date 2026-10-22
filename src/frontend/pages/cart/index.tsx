@@ -10,11 +10,13 @@ import CartDetail from '../../components/Cart/CartDetail';
 import EmptyCart from '../../components/Cart/EmptyCart';
 import { useCart } from '../../providers/Cart.provider';
 import AdProvider from '../../providers/Ad.provider';
+import { useVertical } from '../../providers/Vertical.provider';
 
 const Cart: NextPage = () => {
   const {
     cart: { items },
   } = useCart();
+  const { brandName } = useVertical();
 
   return (
     <AdProvider
@@ -22,7 +24,7 @@ const Cart: NextPage = () => {
       contextKeys={[...new Set(items.flatMap(({ product }) => product.categories))]}
     >
       <Head>
-        <title>Otel Demo - Cart</title>
+        <title>{brandName} - Cart</title>
       </Head>
       <Layout>
         <S.Cart>
